@@ -7,9 +7,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
