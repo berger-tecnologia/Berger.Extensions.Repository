@@ -2,15 +2,8 @@
 	<PropertyGroup>
 		<Nullable>disable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.10" />
-	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<ProjectReference Include="$(berger-open-source)\Berger.Extensions.Abstractions\src\Berger.Extensions.Abstractions\Berger.Extensions.Abstractions.csproj" />
@@ -19,5 +12,11 @@
 
 	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<PackageReference Include="Berger.Extensions.Abstractions" Version="1.0.0.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 </Project>

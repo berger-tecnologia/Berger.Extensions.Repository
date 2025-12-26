@@ -103,7 +103,8 @@ namespace Berger.Extensions.Repository
         }
         public async Task UpdateAsync(Func<T, string> field, string value)
         {
-            await _entity.ExecuteUpdateAsync(e => e.SetProperty(field, field + value));
+            throw new NotImplementedException();
+            //await _entity.ExecuteUpdateAsync(e => e.SetProperty(field, field + value));
         }
         public async Task DeleteAsync(Guid id)
         {
