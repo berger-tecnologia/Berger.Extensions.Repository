@@ -14,8 +14,8 @@ namespace Berger.Extensions.Repository
         {
             var _context = GetContext<T>(provider);
 
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureDeleted();
+            //_context.Database.EnsureCreated();
         }
         public static ServiceProvider CreateContext<T>(this IConfiguration builder, string pattern = Patterns.AzureSqlServer) where T : DbContext
         {
