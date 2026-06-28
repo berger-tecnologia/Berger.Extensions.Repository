@@ -1,20 +1,22 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Berger.Extensions.Repository
+namespace Berger.Extensions.Repository;
+
+public sealed class JsonValueConverter<T> : ValueConverter<T?, string?>
 {
-    public class JsonConverter<T> : ValueConverter<T, string>
-    {
-        public JsonConverter() : base
-        (
-            e => JsonConvert.SerializeObject(e),
-            e => JsonConvert.DeserializeObject<T>(e)
-        )
-        { }
-    }
-    public class StringListConverter<T> : ValueConverter<List<string>, string>
-    {
-        public StringListConverter() : base(e => string.Join(", ", e!), e => e.Split(',', StringSplitOptions.TrimEntries).ToList())
-        { }
-    }
+    public JsonValueConverter(JsonSerializerOptions? options = null)
+        : base(
+            value => value == null ? null : JsonSerializer.Serialize(value, options),
+            value => string.IsNullOrWhiteSpace(value) ? default : JsonSerializer.Deserialize<T>(value, options))
+    { }
+}
+
+public sealed class StringListConverter : ValueConverter<List<string>, string>
+{
+    public StringListConverter()
+        : base(
+            value => string.Join(",", value),
+            value => value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList())
+    { }
 }

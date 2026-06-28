@@ -1,72 +1,66 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Berger.Extensions.Abstractions;
-using Berger.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Berger.Extensions.Repository
+namespace Berger.Extensions.Repository;
+
+public interface IApplicationContext
 {
-    public class ApplicationContext : IContext
+    Guid ApplicationId { get; }
+    void SetApplication(Guid applicationId);
+}
+
+public sealed class ApplicationContext : IApplicationContext
+{
+    public Guid ApplicationId { get; private set; } = Guid.Empty;
+    public void SetApplication(Guid applicationId) => ApplicationId = applicationId;
+}
+
+public static class SqlServerConfiguration
+{
+    public static IServiceCollection ConfigureDbContext<TContext>(this IServiceCollection services, IConfiguration configuration, string pattern = Patterns.AzureSqlServer, bool tracking = true) where TContext : DbContext
     {
-        private Guid _applicationId;
-        public Guid ApplicationId => _applicationId;
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configuration);
 
-        public ApplicationContext()
-        {
-            _applicationId = Guid.Empty;
-        }
+        var connection = configuration.GetSection(pattern).Value ?? configuration.GetConnectionString(pattern) ?? configuration.GetConnectionString(pattern.Replace("ConnectionStrings:", string.Empty));
 
-        public void SetContext(Guid applicationId)
+        if (string.IsNullOrWhiteSpace(connection)) throw new FileNotFoundException(Errors.ConfigNotFound);
+
+        services.AddScoped<IApplicationContext, ApplicationContext>();
+        services.AddDbContext<TContext>(options =>
         {
-            _applicationId = applicationId;
-        }
-        public void SetApplication(Guid applicationId)
-        {
-            _applicationId = applicationId;
-        }
+            options.UseSqlServer(connection, sql => sql.EnableRetryOnFailure());
+
+            if (!tracking) options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
+
+        services.AddRepositoryPattern<TContext>();
+
+        return services;
     }
-    public static class SqlServerConfiguration
+
+    public static IServiceCollection ConfigureDbContextFactory<TContext>(this IServiceCollection services, IConfiguration configuration, string pattern = Patterns.AzureSqlServer, ServiceLifetime lifetime = ServiceLifetime.Scoped) where TContext : DbContext
     {
-        public static IServiceCollection ConfigureDbContext<T>(this IServiceCollection services, IConfiguration configuration, string pattern, bool tracking = true) where T : DbContext
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configuration);
+
+        var connection = configuration.GetSection(pattern).Value ?? configuration.GetConnectionString(pattern) ?? configuration.GetConnectionString(pattern.Replace("ConnectionStrings:", string.Empty));
+
+        if (string.IsNullOrWhiteSpace(connection)) throw new FileNotFoundException(Errors.ConfigNotFound);
+
+        services.AddDbContextFactory<TContext>(options =>
         {
-            if (services is null)
-                throw new ArgumentNullException(nameof(services));
-
-            //var connection = configuration.GetConnectionString(pattern);
-            var connection = configuration.GetConnection(pattern);
-
-            if (string.IsNullOrEmpty(connection))
-                throw new FileNotFoundException(Errors.ConfigNotFound);
-
-            services.AddScoped<IContext, ApplicationContext>().AddDbContext<T>(options =>
+            options.UseSqlServer(connection, sql => sql.EnableRetryOnFailure());
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            options.ConfigureWarnings(builder =>
             {
-                options.UseSqlServer(connection, e => e.EnableRetryOnFailure());
+                builder.Ignore(RelationalEventId.BoolWithDefaultWarning);
+                builder.Ignore(CoreEventId.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning);
+            });
+        }, lifetime);
 
-                if (!tracking)
-                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            },
-            ServiceLifetime.Transient);
-
-            return services;
-        }
-        public static void ConfigureDbContextFactory<T>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime lifetime = ServiceLifetime.Transient) where T : DbContext
-        {
-            services.AddDbContextFactory<T>(delegate (DbContextOptionsBuilder options)
-            {
-                options.EnableSensitiveDataLogging();
-
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
-                options.ConfigureWarnings(builder =>
-                {
-                    builder.Ignore(RelationalEventId.BoolWithDefaultWarning);
-                    builder.Ignore(CoreEventId.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning);
-                });
-
-            },
-                lifetime
-            );
-        }
+        return services;
     }
 }

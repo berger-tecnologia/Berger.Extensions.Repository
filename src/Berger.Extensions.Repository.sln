@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.11904.113 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C0C21867-0B05-4D99-9956-D78F03ED3B66}"
 EndProject
@@ -13,6 +13,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Berger.Extensions.Abstractions", "..\..\Berger.Extensions.Abstractions\src\Berger.Extensions.Abstractions\Berger.Extensions.Abstractions.csproj", "{4A729619-6FC1-4A63-B95F-4DFEA8EDAE7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Berger.Extensions.Repository", "Berger.Extensions.Repository\Berger.Extensions.Repository.csproj", "{BF0A6347-6090-4FB2-8246-01CCF89EEC7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Berger.Extensions.Repository.Tests", "Berger.Extensions.Repository.Tests\Berger.Extensions.Repository.Tests.csproj", "{099BEA70-0CC0-30AC-08D1-9B57BF704843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Berger.Extensions.Configuration", "..\..\Berger.Extensions.Configuration\src\Berger.Extensions.Configuration\Berger.Extensions.Configuration.csproj", "{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Berger.Extensions.Domain", "..\..\Berger.Extensions.Domain\src\Berger.Extensions.Domain\Berger.Extensions.Domain.csproj", "{BC4CCEED-557D-E587-FED4-5CF65BE7E509}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Berger.Extensions.EntityFrameworkCore", "..\..\Berger.Extensions.EntityFrameworkCore\src\Berger.Extensions.EntityFrameworkCore\Berger.Extensions.EntityFrameworkCore.csproj", "{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Berger.Extensions.System", "..\..\Berger.Extensions.System\src\Berger.Extensions.System\Berger.Extensions.System.csproj", "{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +38,26 @@ Global
 		{BF0A6347-6090-4FB2-8246-01CCF89EEC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0A6347-6090-4FB2-8246-01CCF89EEC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0A6347-6090-4FB2-8246-01CCF89EEC7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099BEA70-0CC0-30AC-08D1-9B57BF704843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099BEA70-0CC0-30AC-08D1-9B57BF704843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099BEA70-0CC0-30AC-08D1-9B57BF704843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099BEA70-0CC0-30AC-08D1-9B57BF704843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4CCEED-557D-E587-FED4-5CF65BE7E509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4CCEED-557D-E587-FED4-5CF65BE7E509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4CCEED-557D-E587-FED4-5CF65BE7E509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4CCEED-557D-E587-FED4-5CF65BE7E509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,6 +65,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4A729619-6FC1-4A63-B95F-4DFEA8EDAE7C} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
 		{BF0A6347-6090-4FB2-8246-01CCF89EEC7A} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
+		{099BEA70-0CC0-30AC-08D1-9B57BF704843} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
+		{0F9D7EFE-FA01-07E5-160D-4BA234BDFB62} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
+		{BC4CCEED-557D-E587-FED4-5CF65BE7E509} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
+		{E7E108A6-69AF-8EA4-39DB-D8B0465ACE5C} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
+		{8BD5EC5D-A2F4-6E92-7B05-5010FD5B5F0B} = {C0C21867-0B05-4D99-9956-D78F03ED3B66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13FADEAC-8483-431A-922F-D54D13E24574}

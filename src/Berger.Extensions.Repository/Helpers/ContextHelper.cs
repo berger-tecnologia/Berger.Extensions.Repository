@@ -1,35 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Berger.Extensions.Repository
+namespace Berger.Extensions.Repository;
+
+public static class ContextHelper
 {
-    public static class ContextHelper
+    public static TContext GetContext<TContext>(this IServiceProvider provider) where TContext : DbContext
+        => provider.GetRequiredService<TContext>();
+
+    public static async Task ResetAsync<TContext>(this IServiceProvider provider, CancellationToken cancellationToken = default) where TContext : DbContext
     {
-        public static T GetContext<T>(this IServiceProvider provider) where T : DbContext
-        {
-            return provider.GetContext<T>();
-        }
-        public static void Reset<T>(this IServiceProvider provider) where T : DbContext
-        {
-            var _context = GetContext<T>(provider);
+        var context = provider.GetContext<TContext>();
+        await context.Database.EnsureDeletedAsync(cancellationToken);
+        await context.Database.EnsureCreatedAsync(cancellationToken);
+    }
 
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
-        }
-        public static ServiceProvider CreateContext<T>(this IConfiguration builder, string pattern = Patterns.AzureSqlServer) where T : DbContext
-        {
-            // Service Configuration
-            var services = new ServiceCollection();
-
-            // IConfiguration
-            services.AddSingleton<IConfiguration>(builder);
-
-            // Database Configuration
-            services.ConfigureDbContext<T>(builder, pattern);
-
-            // Service Building
-            return services.BuildServiceProvider();
-        }
+    public static ServiceProvider CreateContext<TContext>(this IConfiguration configuration, string pattern = Patterns.AzureSqlServer) where TContext : DbContext
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<IConfiguration>(configuration);
+        services.ConfigureDbContext<TContext>(configuration, pattern);
+        services.AddRepositoryPattern<TContext>();
+        return services.BuildServiceProvider();
     }
 }

@@ -1,30 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Berger.Extensions.Repository
+namespace Berger.Extensions.Repository;
+
+public abstract class BaseContext<TContext> : DbContext where TContext : DbContext
 {
-    public abstract class BaseContext<T> : DbContext where T : DbContext
+    protected BaseContext(DbContextOptions<TContext> options) : base(options)
     {
-        public BaseContext(DbContextOptions<T> options) : base(options)
-        {
-            Database.SetCommandTimeout(1000);
-        }
-        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
-        {
-            // Unicode
-            builder.Properties<string>().AreUnicode(false);
-            builder.Properties<List<string>>().AreUnicode(false);
-            builder.Properties<Dictionary<string, string>>().AreUnicode(false);
+        Database.SetCommandTimeout(1000);
+    }
 
-            // Precisions
-            builder.Properties<double>().HavePrecision(18, 2);
-            builder.Properties<decimal>().HavePrecision(18, 2);
+    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+    {
+        builder.Properties<string>().AreUnicode(false).HaveMaxLength(4000);
+        builder.Properties<decimal>().HavePrecision(28, 6);
+        builder.Properties<double>().HavePrecision(28, 6);
+        builder.Properties<DateTime>().HavePrecision(3);
+        builder.Properties<DateTimeOffset>().HavePrecision(3);
+        builder.Properties<List<string>>().HaveConversion<StringListConverter>().AreUnicode(false).HaveMaxLength(4000);
 
-            // Conversions
-            builder.Properties<List<string>>().HaveConversion<StringListConverter<List<string>>>();
-            builder.Properties<Dictionary<string, int>>().HaveConversion<JsonConverter<Dictionary<string, int>>>();
-            builder.Properties<Dictionary<string, string>>().HaveConversion<JsonConverter<Dictionary<string, string>>>();
-
-            base.ConfigureConventions(builder);
-        }
+        base.ConfigureConventions(builder);
     }
 }
